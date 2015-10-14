@@ -1,0 +1,19 @@
+{
+  "name": "nearly",
+  "version": "1.0.0",
+  "description": "A travel tool for people who want to know if a 'x' is close to a 'y'",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jberry93/nearly.git"
+  },
+  "author": "Jeffrey Berry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jberry93/nearly/issues"
+  },
+  "homepage": "https://github.com/jberry93/nearly#readme"
+}
