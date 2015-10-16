@@ -1,11 +1,15 @@
 var express = require("express"),
-    app = express(),
+    server = express(),
     path = require("path");
 
-app.get("/", function(request, response) {
+server.get("/", function(request, response) {
   response.sendFile(path.join(__dirname + "/views/index.html"));
 });
 
-app.listen(8080);
+server.use("/bower_components", express.static(__dirname + "/../nearly/bower_components"));
+server.use("/app", express.static(__dirname + "/../nearly/app"));
+server.use(express.static(__dirname + "/views"));
+
+server.listen(8080);
 
 console.log("Listening on port 8080!");
