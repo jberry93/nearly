@@ -9,6 +9,7 @@ server.get("/", function(request, response) {
 server.use("/bower_components", express.static(__dirname + "/../nearly/bower_components"));
 server.use("/app", express.static(__dirname + "/../nearly/app"));
 server.use(express.static(__dirname + "/views"));
+server.use("/js", express.static(__dirname + "/js"));
 
 server.listen(8080);
 
