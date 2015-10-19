@@ -13,11 +13,15 @@ gulp.task("test", function() {
   return gulp.src("test.js").pipe(mocha());
 });
 
+gulp.task("watchjs", function() {
+  gulp.watch("*.js", ["test"]);
+});
+
 gulp.task("nodemon", function() {
   nodemon({
     script: "server.js",
     ext: "js"
-  });
+  }).on("start", ["test"]);
 });
 
-gulp.task("default", ["nodemon"]);
+gulp.task("default", ["nodemon", "watchjs"]);
