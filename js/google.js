@@ -8,13 +8,31 @@ function createMap() {
   // add Geocoder service
   var geoCoder = new google.maps.Geocoder();
   function codeAddress() {
-    var address = document.getElementById("address").value;
-    geoCoder.geocode({"address": address}, function(results, statusCode) {
+    // var address = document.getElementById("address").value;
+    var y = document.getElementById("y").value;
+    geoCoder.geocode({"address": y}, function(results, statusCode) {
       if(statusCode === google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
         var addressMarker = new google.maps.Marker({map: map, position: results[0].geometry.location});
       } else {
         alert("Oops it broke");
+      }
+
+      // add Places service
+      var x = document.getElementById("x").value;
+      var placesService = new google.maps.places.PlacesService(map);
+      placesService.nearbySearch({
+        location: results[0].geometry.location,
+        radius: 2000,
+        keyword: x
+      }, callback);
+      function callback(listOfResults, statusCode) {
+        if(statusCode === google.maps.places.PlacesServiceStatus.OK) {
+          for(var result = 0; result < listOfResults.length; result++) {
+            makeMarker(listOfResults[result]);
+            console.log(listOfResults[result]);
+          }
+        }
       }
     });
   }
@@ -22,22 +40,6 @@ function createMap() {
   // add reference to button
   var goButton = document.getElementById("go");
   goButton.addEventListener("click", codeAddress, false);
-
-  // add Places service
-  var placesService = new google.maps.places.PlacesService(map);
-  placesService.nearbySearch({
-    location: mapCenter,
-    radius: 1000,
-    types: ["restaurant"]
-  }, callback);
-  function callback(listOfResults, statusCode) {
-    if(statusCode === google.maps.places.PlacesServiceStatus.OK) {
-      for(var result = 0; result < listOfResults.length; result++) {
-        makeMarker(listOfResults[result]);
-        console.log(listOfResults[result]);
-      }
-    }
-  }
 
   // add info windows to markers
   var infoWindow = new google.maps.InfoWindow();
@@ -51,7 +53,7 @@ function createMap() {
     });
   }
 
-  // record user's location
+  // record users' location
   var yourLat, yourLng;
   function showLocation(position) {
     yourLat = position.coords.latitude;
