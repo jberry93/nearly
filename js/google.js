@@ -2,15 +2,14 @@ function createMap() {
   // make map
   var mapContainer = document.getElementById("map");
   var mapCenter = {lat: 33.6937232, lng: -117.8055461};
-  var mapOptions = {center: mapCenter, zoom: 13};
+  var mapOptions = {center: mapCenter, zoom: 14};
   var map = new google.maps.Map(mapContainer, mapOptions);
 
   // add Geocoder service
   var geoCoder = new google.maps.Geocoder();
   function codeAddress() {
-    // var address = document.getElementById("address").value;
-    var y = document.getElementById("y").value;
-    geoCoder.geocode({"address": y}, function(results, statusCode) {
+    var yValue = document.getElementById("y").value;
+    geoCoder.geocode({"address": yValue}, function(results, statusCode) {
       if(statusCode === google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
         var addressMarker = new google.maps.Marker({map: map, position: results[0].geometry.location});
@@ -60,6 +59,14 @@ function createMap() {
     yourLng = position.coords.longitude;
     var myPosition = {lat: position.coords.latitude, lng: position.coords.longitude};
   }
+
+  // add a search box
+  var worldBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-90, -180),
+    new google.maps.LatLng(90, 180)
+  );
+  var yInput = document.getElementById("y");
+  var theSearchBox = new google.maps.places.SearchBox(yInput, {bounds: worldBounds});
 
   // get user's location
   if(navigator.geolocation) {
