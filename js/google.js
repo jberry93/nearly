@@ -24,10 +24,16 @@ function createMap() {
   var geoCoder = new google.maps.Geocoder();
   function codeAddress() {
     var yValue = document.getElementById("y").value;
-    geoCoder.geocode({"address": yValue}, function(results, statusCode) {
+    geoCoder.geocode({address: yValue}, function(results, statusCode) {
       if(statusCode === google.maps.GeocoderStatus.OK) {
+        var yMarkerOptions = {
+          map: map,
+          position: results[0].geometry.location,
+          animation: google.maps.Animation.DROP,
+          label: yValue
+        }
+        var yMarker = new google.maps.Marker(yMarkerOptions);
         map.setCenter(results[0].geometry.location);
-        var addressMarker = new google.maps.Marker({map: map, position: results[0].geometry.location});
       } else {
         alert("Oops it broke");
       }
@@ -37,15 +43,14 @@ function createMap() {
       var placesService = new google.maps.places.PlacesService(map);
       placesService.nearbySearch({
         location: results[0].geometry.location,
-        radius: 2000,
-        keyword: x
-      }, callback);
-      function callback(listOfResults, statusCode) {
+        keyword: x,
+        rankBy: google.maps.places.RankBy.DISTANCE
+      }, postResults);
+      function postResults(listOfResults, statusCode) {
         if(statusCode === google.maps.places.PlacesServiceStatus.OK) {
           for(var result = 0; result < listOfResults.length; result++) {
             makeMarker(listOfResults[result]);
           }
-          console.log(markerArray);
         }
       }
     });
@@ -55,8 +60,13 @@ function createMap() {
   var infoWindow = new google.maps.InfoWindow();
   var markerArray = [];
   function makeMarker(place) {
+    console.log(place);
     var locationLocation = place.geometry.location;
-    var markerOptions = {map: map, position: locationLocation};
+    var markerOptions = {
+      map: map,
+      position: locationLocation,
+      animation: google.maps.Animation.DROP
+    };
     var marker = new google.maps.Marker(markerOptions);
     markerArray.push(marker);
     google.maps.event.addListener(marker, "click", function() {
