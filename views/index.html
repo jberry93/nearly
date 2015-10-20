@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
   <head>
     <title>Nearly</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="default.css">
     <!-- bower:css -->
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
     <!-- endbower -->
+    <link rel="stylesheet" href="default.css">
   </head>
   <body>
     <div class="jumbotron">
       <h1>Nearly</h1>
     </div>
-    <h5>Enter zip/city, state</h5><input id="address" class="location" placeholder="Irvine, CA">
     <br>
-    <p>Find <input class="x" placeholder="ice cream"> near <input class="y" placeholder="movie theater"></p>
+    <p>Find <input id="x" placeholder="ice cream"> near/in <input id="y" placeholder="ZIP/City, State/Address"></p>
     <br>
     <button id="go">Go</button>
-    <div id="map"></div>
+    <br><br>
+    <div class="row">
+      <div class="col-md-6 mapContainer">
+        <div id="map"></div>
+      </div>
+      <div class="col-md-6 distanceContainer">
+        <ol id="distance"></ol>
+      </div>
+    </div>
     <!-- bower:js -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
