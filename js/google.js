@@ -2,7 +2,11 @@ function createMap() {
   // make map
   var mapContainer = document.getElementById("map");
   var mapCenter = {lat: 33.6937232, lng: -117.8055461};
-  var mapOptions = {center: mapCenter, zoom: 14};
+  var mapOptions = {
+    center: mapCenter,
+    zoom: 14,
+    scrollwheel: false
+  };
   var map = new google.maps.Map(mapContainer, mapOptions);
 
   // add reference to button
@@ -33,6 +37,7 @@ function createMap() {
           label: yValue
         }
         var yMarker = new google.maps.Marker(yMarkerOptions);
+        markerArray.push(yMarker);
         map.setCenter(results[0].geometry.location);
       } else {
         alert("Oops it broke");
@@ -50,6 +55,7 @@ function createMap() {
         if(statusCode === google.maps.places.PlacesServiceStatus.OK) {
           for(var result = 0; result < listOfResults.length; result++) {
             makeMarker(listOfResults[result]);
+            addToList(listOfResults[result]);
           }
         }
       }
@@ -60,7 +66,7 @@ function createMap() {
   var infoWindow = new google.maps.InfoWindow();
   var markerArray = [];
   function makeMarker(place) {
-    console.log(place);
+    console.log(place.name);
     var locationLocation = place.geometry.location;
     var markerOptions = {
       map: map,
@@ -73,6 +79,15 @@ function createMap() {
       infoWindow.setContent(place.name);
       infoWindow.open(map, this);
     });
+  }
+
+  // add locations to a list
+  function addToList(place) {
+    var list = document.getElementById("list");
+    var item = document.createElement("li");
+    var itemTextNode = document.createTextNode(place.name);
+    item.appendChild(itemTextNode);
+    list.appendChild(item);
   }
 
   // get user's location
