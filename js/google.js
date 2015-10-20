@@ -51,11 +51,40 @@ function createMap() {
         keyword: x,
         rankBy: google.maps.places.RankBy.DISTANCE
       }, postResults);
+
+      // callback function 'postResults' for Places service
       function postResults(listOfResults, statusCode) {
         if(statusCode === google.maps.places.PlacesServiceStatus.OK) {
           for(var result = 0; result < listOfResults.length; result++) {
             makeMarker(listOfResults[result]);
-            addToList(listOfResults[result]);
+
+            // radian conversion function
+            function radians(degrees) {
+              var convert = (degrees * Math.PI) / 180;
+              return convert;
+            }
+
+            // add haversine algorithm to calculate distances
+            function haversine() {
+              var latDifference = radians(listOfResults[result].geometry.location.lat() - results[0].geometry.location.lat());
+              var lngDifference = radians(listOfResults[result].geometry.location.lng() - results[0].geometry.location.lng());
+              var radius = 3961;
+              var a = Math.pow(Math.sin(latDifference / 2), 2) +
+                      Math.cos(radians(results[0].geometry.location.lat())) *
+                      Math.cos(radians(listOfResults[result].geometry.location.lat())) *
+                      Math.pow(Math.sin(lngDifference / 2), 2);
+              var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+              var d = radius * c;
+              console.log(d);
+              return d;
+            }
+
+            // add name and distances to list
+            var distanceList = document.getElementById("distance");
+            var distanceItem = document.createElement("li");
+            var distanceText = document.createTextNode(listOfResults[result].name + " is " + haversine().toFixed(2) + " miles away");
+            distanceItem.appendChild(distanceText);
+            distanceList.appendChild(distanceItem);
           }
         }
       }
@@ -80,27 +109,6 @@ function createMap() {
     });
   }
 
-  // add locations to a list
-  function addToList(place) {
-    var list = document.getElementById("list");
-    var item = document.createElement("li");
-    var itemTextNode = document.createTextNode(place.name);
-    item.appendChild(itemTextNode);
-    list.appendChild(item);
-  }
-
-  // // get reference to 'Clear List' button
-  // var clearButton = document.getElementById("clear");
-  // clearButton.addEventListener("click", removeList, true);
-  //
-  // // remove list
-  // function removeList() {
-  //   var list = document.getElementsByTagName("LI");
-  //   for(var item = 0; item < list.length; item++) {
-  //     list[item].remove();
-  //   }
-  // }
-
   // get user's location
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showLocation);
@@ -124,18 +132,4 @@ function createMap() {
   );
   var yInput = document.getElementById("y");
   var theSearchBox = new google.maps.places.SearchBox(yInput, {bounds: worldBounds});
-
-  // add haversine algorithm to calculate distances
-  function haversine(markerPosition) {
-    var latDifference = radians(markerPosition.lat - position.coords.latitude);
-    var lngDifference = radians(markerPosition.lng - position.coords.longitude);
-    var radius = 3961;
-    var a = Math.pow(Math.sin(latDifference / 2), 2) +
-            Math.cos(radians(position.coords.latitude)) *
-            Math.cos(radians(markerPosition.lat)) *
-            Math.pow(Math.sin(lngDifference / 2), 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = radius * c;
-    return d;
-    }
 }
