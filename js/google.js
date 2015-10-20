@@ -66,7 +66,6 @@ function createMap() {
   var infoWindow = new google.maps.InfoWindow();
   var markerArray = [];
   function makeMarker(place) {
-    console.log(place.name);
     var locationLocation = place.geometry.location;
     var markerOptions = {
       map: map,
@@ -89,6 +88,18 @@ function createMap() {
     item.appendChild(itemTextNode);
     list.appendChild(item);
   }
+
+  // // get reference to 'Clear List' button
+  // var clearButton = document.getElementById("clear");
+  // clearButton.addEventListener("click", removeList, true);
+  //
+  // // remove list
+  // function removeList() {
+  //   var list = document.getElementsByTagName("LI");
+  //   for(var item = 0; item < list.length; item++) {
+  //     list[item].remove();
+  //   }
+  // }
 
   // get user's location
   if(navigator.geolocation) {
@@ -113,4 +124,18 @@ function createMap() {
   );
   var yInput = document.getElementById("y");
   var theSearchBox = new google.maps.places.SearchBox(yInput, {bounds: worldBounds});
+
+  // add haversine algorithm to calculate distances
+  function haversine(markerPosition) {
+    var latDifference = radians(markerPosition.lat - position.coords.latitude);
+    var lngDifference = radians(markerPosition.lng - position.coords.longitude);
+    var radius = 3961;
+    var a = Math.pow(Math.sin(latDifference / 2), 2) +
+            Math.cos(radians(position.coords.latitude)) *
+            Math.cos(radians(markerPosition.lat)) *
+            Math.pow(Math.sin(lngDifference / 2), 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = radius * c;
+    return d;
+    }
 }
