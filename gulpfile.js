@@ -16,24 +16,28 @@ gulp.task("nodemon", function() {
   }).on("start", ["test"]);
 });
 
+gulp.task("combineApp", function() {
+  return gulp.src([
+    "client/app/*.js",
+    "client/app/go/*.js"
+  ])
+    .pipe(concat("myApp.js"))
+    .pipe(uglify())
+    .pipe(rename({
+      suffix: ".min"
+    }))
+    .pipe(gulp.dest("server/public"));
+});
+
 gulp.task("test", function() {
   return gulp.src("test.js").pipe(mocha());
 });
 
 gulp.task("smashVendors", function() {
   return gulp.src([
-    "bower_components/angular/angular.min.js",
-    "bower_components/bootstrap/dist/js/bootstrap.min.js",
-    "bower_components/jquery/dist/jquery.min.js"
-  ]).pipe(concat("vendors.js")).pipe(gulp.dest("server/public"));
-});
-
-gulp.task("moveBootstrap", function() {
-  return gulp.src([
-    "bower_components/bootstrap/dist/css/bootstrap.min.css",
-    "bower_components/jquery/dist/jquery.min.js"
-])
-    .pipe(gulp.dest("server/public"));
+    "client/bower_components/jquery/dist/jquery.min.js",
+    "client/bower_components/bootstrap/dist/js/bootstrap.min.js"
+  ]).pipe(concat("bootquery.js")).pipe(gulp.dest("server/public"));
 });
 
 gulp.task("compressJS", function() {
@@ -59,6 +63,18 @@ gulp.task("compressCSS", function() {
     .pipe(cssMin())
     .pipe(rename({
       suffix:".min"
+    }))
+    .pipe(gulp.dest("client/views/"));
+});
+
+gulp.task("smashCSS", function() {
+  return gulp.src([
+    "client/bower_components/bootstrap/dist/css/bootstrap.min.css",
+    "client/views/default.min.css"
+  ])
+    .pipe(concat("all.css"))
+    .pipe(rename({
+      suffix: ".min"
     }))
     .pipe(gulp.dest("server/public"));
 });
