@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Nearly</title>
+    <meta charset="utf-8">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <!-- endbower -->
+    <link rel="stylesheet" href="default.css">
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1>Nearly</h1>
+    </div>
+    <br>
+    <p>Find <input id="x" placeholder="ice cream"> near/in <input id="y" placeholder="ZIP/City, State/Address"></p>
+    <br>
+    <button id="go">Go</button>
+    <br><br>
+    <div class="row">
+      <div class="col-md-6 mapContainer">
+        <div id="map"></div>
+      </div>
+      <div class="col-md-6 distanceContainer">
+        <ol id="distance"></ol>
+      </div>
+    </div>
+    <!-- bower:js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <!-- endbower -->
+    <script src="../js/google.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX-Ef4VxCICPWOWrgFeRW7RIZAYP0ZG84&libraries=places&callback=createMap"></script>
+    <!-- Documentation for above script tag: https://developers.google.com/maps/documentation/javascript/places-autocomplete -->
+  </body>
+</html>
