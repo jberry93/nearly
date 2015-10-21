@@ -75,7 +75,6 @@ function createMap() {
                       Math.pow(Math.sin(lngDifference / 2), 2);
               var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
               var d = radius * c;
-              console.log(d);
               return d;
             }
 
