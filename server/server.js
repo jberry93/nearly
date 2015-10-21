@@ -3,13 +3,10 @@ var express = require("express"),
     path = require("path");
 
 server.get("/", function(request, response) {
-  response.sendFile(path.join(__dirname + "/views/index.html"));
+  response.sendFile(path.join(__dirname + "/public/index.min.html"));
 });
 
-server.use("/bower_components", express.static(__dirname + "/../nearly/bower_components"));
-server.use("/app", express.static(__dirname + "/../nearly/app"));
-server.use(express.static(__dirname + "/views"));
-server.use("/js", express.static(__dirname + "/js"));
+server.use(express.static(__dirname + "/public"));
 
 server.listen(8080);
 
