@@ -18,6 +18,11 @@ button {
 #map {
   height: 500px;
 }
-.distanceContainer {
+.listContainer {
   text-align: left;
+  font-size: 16px;
+}
+.jumbotron {
+  background: #959393;
+  color: white;
 }

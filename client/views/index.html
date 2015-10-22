@@ -4,6 +4,8 @@
     <title>Nearly</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="all.min.css">
+    <script src="vendor.min.js"></script>
+    <script src="myApp.min.js"></script>
   </head>
   <body>
     <div class="jumbotron">
@@ -18,13 +20,12 @@
       <div class="col-md-6 mapContainer">
         <div id="map"></div>
       </div>
-      <div class="col-md-6 distanceContainer">
+      <div class="col-md-6 listContainer">
         <ol id="distance"></ol>
       </div>
     </div>
-    <script src="bootquery.js"></script>
     <script src="google.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX-Ef4VxCICPWOWrgFeRW7RIZAYP0ZG84&libraries=places&callback=createMap"></script>
+    <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX-Ef4VxCICPWOWrgFeRW7RIZAYP0ZG84&libraries=places&callback=createMap"></script>
     <!-- Documentation for above script tag: https://developers.google.com/maps/documentation/javascript/places-autocomplete -->
   </body>
 </html>
