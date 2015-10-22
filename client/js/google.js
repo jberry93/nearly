@@ -1,4 +1,12 @@
 function createMap() {
+  // add a search box
+  var worldBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-90, -180),
+    new google.maps.LatLng(90, 180)
+  );
+  var yInput = document.getElementById("y");
+  var theSearchBox = new google.maps.places.SearchBox(yInput, {bounds: worldBounds});
+
   // make map
   var mapContainer = document.getElementById("map");
   var mapCenter = {lat: 33.6937232, lng: -117.8055461};
@@ -102,33 +110,9 @@ function createMap() {
     };
     var marker = new google.maps.Marker(markerOptions);
     markerArray.push(marker);
-    google.maps.event.addListener(marker, "click", function() {
+    google.maps.event.addListener(marker, "mouseover", function() {
       infoWindow.setContent(place.name);
       infoWindow.open(map, this);
     });
   }
-
-  // get user's location
-  if(navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showLocation);
-  } else {
-    alert("You need to enable geolocation!");
-    location.reload(true);
-  }
-
-  // record users' location
-  var yourLat, yourLng;
-  function showLocation(position) {
-    yourLat = position.coords.latitude;
-    yourLng = position.coords.longitude;
-    var myPosition = {lat: position.coords.latitude, lng: position.coords.longitude};
-  }
-
-  // add a search box
-  var worldBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-90, -180),
-    new google.maps.LatLng(90, 180)
-  );
-  var yInput = document.getElementById("y");
-  var theSearchBox = new google.maps.places.SearchBox(yInput, {bounds: worldBounds});
 }
