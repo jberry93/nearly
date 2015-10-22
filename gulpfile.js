@@ -18,8 +18,8 @@ gulp.task("nodemon", function() {
 
 gulp.task("combineApp", function() {
   return gulp.src([
-    "client/app/*.js",
-    "client/app/go/*.js"
+    "client/app/*.module.js",
+    "client/app/*.js"
   ])
     .pipe(concat("myApp.js"))
     .pipe(uglify())
@@ -30,14 +30,16 @@ gulp.task("combineApp", function() {
 });
 
 gulp.task("test", function() {
-  return gulp.src("test.js").pipe(mocha());
+  return gulp.src("client/js/test.js").pipe(mocha());
 });
 
 gulp.task("smashVendors", function() {
   return gulp.src([
+    "client/bower_components/angular/angular.min.js",
+    "client/bower_components/angular-route/angular-route.min.js",
     "client/bower_components/jquery/dist/jquery.min.js",
     "client/bower_components/bootstrap/dist/js/bootstrap.min.js"
-  ]).pipe(concat("bootquery.js")).pipe(gulp.dest("server/public"));
+  ]).pipe(concat("vendor.min.js")).pipe(gulp.dest("server/public"));
 });
 
 gulp.task("compressJS", function() {
@@ -56,6 +58,15 @@ gulp.task("compressHTML", function() {
       suffix: ".min"
     }))
     .pipe(gulp.dest("server/public"));
+});
+
+gulp.task("compressGo", function() {
+  return gulp.src("client/app/go/*.html")
+    .pipe(htmlMin())
+    .pipe(rename({
+      suffix: ".min"
+    }))
+    .pipe(gulp.dest("server/public/app/go"));
 });
 
 gulp.task("compressCSS", function() {
