@@ -52,21 +52,15 @@ gulp.task("compressJS", function() {
 });
 
 gulp.task("compressHTML", function() {
-  return gulp.src("client/views/*.html")
+  return gulp.src([
+    "client/views/*.html",
+    "client/app/go/*.html"
+  ])
     .pipe(htmlMin())
     .pipe(rename({
       suffix: ".min"
     }))
     .pipe(gulp.dest("server/public"));
-});
-
-gulp.task("compressGo", function() {
-  return gulp.src("client/app/go/*.html")
-    .pipe(htmlMin())
-    .pipe(rename({
-      suffix: ".min"
-    }))
-    .pipe(gulp.dest("server/public/app/go"));
 });
 
 gulp.task("compressCSS", function() {
