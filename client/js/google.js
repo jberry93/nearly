@@ -22,6 +22,7 @@ function createMap() {
   goButton.addEventListener("click", function() {
     removeMarkers(); // remove old markers first
     codeAddress(); // populate map with new markers
+    makeObject(); // return a JSON object
   }, false);
 
   // remove old markers
@@ -61,10 +62,12 @@ function createMap() {
       }, postResults);
 
       // callback function 'postResults' for Places service
+      // var resultList = [];
       function postResults(listOfResults, statusCode) {
         if(statusCode === google.maps.places.PlacesServiceStatus.OK) {
           for(var result = 0; result < listOfResults.length; result++) {
             makeMarker(listOfResults[result]);
+            // resultList.push(listOfResults[result].name);
 
             // radian conversion function
             function radians(degrees) {
@@ -93,6 +96,8 @@ function createMap() {
             distanceItem.appendChild(distanceText);
             distanceList.appendChild(distanceItem);
           }
+          // console.log(resultList);
+          // return resultList;
         }
       }
     });
@@ -115,4 +120,17 @@ function createMap() {
       infoWindow.open(map, this);
     });
   }
+
+  //make JSON object
+  function makeObject() {
+    var term = document.getElementById("x").value;
+    var location = document.getElementById("y").value;
+    var list = resultList;
+    var object = {
+      term: term,
+      location: location
+    };
+    console.log(object);
+  }
+
 }
