@@ -13,7 +13,7 @@ gulp.task("nodemon", function() {
   nodemon({
     script: "server/server.js",
     ext: "js"
-  }).on("start", ["test"]);
+  })
 });
 
 gulp.task("combineApp", function() {
