@@ -1,6 +1,10 @@
 var express = require("express"),
     server = express(),
     mongoose = require("mongoose"),
+    mongoClient = require("mongodb").MongoClient, // look up
+    assert = require("assert"), // look up
+    objectID = require("mongodb").ObjectID, // look up
+    url = "mongodb://localhost:27017/nearly",
     parser = require("body-parser"),
     parseJSON = parser.json(),
     path = require("path");
@@ -29,6 +33,27 @@ server.post("/", parseJSON, function(request, response) {
   var history = new YourHistory(request.body);
   history.save();
   response.send("Got it!");
+});
+
+// Make function to look for objects w/in 'histories' collection
+function findObjects(database, callback) {
+  var find = database.collection("histories").find();
+  find.each(function(error, doc) {
+    assert.equal(error, null);
+    if(doc !== null) {
+      console.log(doc);
+    } else {
+      callback();
+    }
+  });
+}
+
+// Connect to mongodb and call the above function
+mongoClient.connect(url, function(error, database) {
+  assert.equal(null, error);
+  findObjects(database, function() {
+    database.close();
+  });
 });
 
 server.use(express.static(__dirname + "/public"));
