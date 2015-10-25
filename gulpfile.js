@@ -75,7 +75,8 @@ gulp.task("compressCSS", function() {
 gulp.task("smashCSS", function() {
   return gulp.src([
     "client/bower_components/bootstrap/dist/css/bootstrap.min.css",
-    "client/views/default.min.css"
+    "client/views/default.min.css",
+    "client/bower_components/animate.css/animate.min.css"
   ])
     .pipe(concat("all.css"))
     .pipe(rename({
