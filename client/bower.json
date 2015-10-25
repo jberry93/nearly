@@ -19,7 +19,9 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "angular": "~1.4.7",
-    "angular-route": "~1.4.7"
+    "angular-route": "~1.4.7",
+    "Materialize": "materialize#~0.97.1",
+    "animate.css": "~3.4.0"
   },
   "overrides": {
     "bootstrap": {
